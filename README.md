@@ -1,101 +1,67 @@
-# Fake News Detection Using Machine Learning
+# Fake News Detection System — Streamlit
 
-## Project Overview
-Fake News Detection is a machine learning project that identifies whether a news article is **Fake or Real** based on its textual content. The project uses Natural Language Processing (NLP) and machine learning techniques to analyze news text and predict its authenticity.
+This is a VS Code version of the notebook project. It uses the same core pipeline:
+- ISOT Fake and Real News Dataset (`Fake.csv`, `True.csv`)
+- Title + article text combined into one content field
+- Empty articles and duplicate content removed
+- 80/20 stratified train/test split
+- TF-IDF vectorizer with unigrams and bigrams
+- Logistic Regression classifier
+- Accuracy, FAKE precision, FAKE recall, FAKE F1-score, classification report, and confusion matrix
+- Streamlit user interface for predicting FAKE/REAL and showing model probabilities
 
-The application provides a simple and interactive web interface using Streamlit, allowing users to enter news content and view the prediction.
+## 1. Install Python
 
-## Objectives
-- Detect fake and real news using machine learning.
-- Preprocess and clean news text.
-- Train and evaluate a machine learning model.
-- Display prediction results through a web application.
-- Visualize model performance using evaluation metrics and graphs.
+Install Python 3.10 or later, then open this folder in VS Code. In VS Code, install the **Python** extension.
 
-## Technologies Used
-- Python
-- Machine Learning
-- Natural Language Processing (NLP)
-- Pandas
-- NumPy
-- Scikit-learn
-- Streamlit
-- Matplotlib / Seaborn (if used in the project)
+## 2. Create a virtual environment
 
-## Project Structure
-```text
-fake-news-detection/
-├── app.py
-├── train_model.py
-├── requirements.txt
-├── README.md
-└── .gitignore
-```
-
-## Installation and Setup
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/YOUR-USERNAME/fake-news-detection.git
-```
-
-### 2. Open the Project Folder
-```bash
-cd fake-news-detection
-```
-
-### 3. Install Dependencies
-```bash
+### Windows PowerShell
+```powershell
+py -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 4. Train the Model
+If PowerShell blocks activation, you can use Command Prompt instead:
+```bat
+.venv\Scripts\activate.bat
+```
+
+## 3. Add the dataset
+
+Download the Kaggle **ISOT Fake and Real News Dataset**:
+https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset
+
+Put these two files directly inside the `data` folder:
+- `data/Fake.csv`
+- `data/True.csv`
+
+Do not put the CSV files in an extra nested folder.
+
+## 4. Train the model
+
+Run in the VS Code terminal, from this project folder:
 ```bash
 python train_model.py
 ```
 
-### 5. Run the Application
+Training can take a few minutes. On success, the model and evaluation files will be saved in `models/`.
+
+## 5. Run the Streamlit app
+
 ```bash
 streamlit run app.py
 ```
 
-## How It Works
-1. Collect the news dataset.
-2. Clean and preprocess the text data.
-3. Convert text into numerical features.
-4. Train a machine learning classification model.
-5. Evaluate the model using suitable performance metrics.
-6. Enter news text into the Streamlit application.
-7. Display the predicted result as Fake or Real.
+Streamlit should open the app in your browser. If it does not, use the local URL printed in the terminal (usually `http://localhost:8501`).
 
-## Evaluation
-The model can be evaluated using:
-- Accuracy
-- Precision
-- Recall
-- F1-score
-- Confusion Matrix
+## Troubleshooting
+- **`streamlit` is not recognized:** activate `.venv` and run `python -m pip install -r requirements.txt`.
+- **Dataset not found:** check that both CSV files are inside the `data` folder and spelled exactly `Fake.csv` and `True.csv`.
+- **Model not found:** run `python train_model.py` successfully before launching the app.
+- **App changes not showing:** save the file and refresh the browser; restart with `Ctrl+C` then `streamlit run app.py` if needed.
 
-## Dataset
-The project uses a labeled news dataset containing fake and real news articles. Add the actual dataset source or Kaggle link here.
-
-## Applications
-- News verification
-- Social media content analysis
-- Media literacy and awareness
-- Educational machine learning projects
-
-## Future Improvements
-- Improve prediction accuracy with additional training data.
-- Test different machine learning algorithms.
-- Support real-time news analysis.
-- Develop a more user-friendly interface.
-
-## Disclaimer
-This project is intended for educational purposes. Predictions should not be treated as definitive proof that a news article is true or false.
-
-## Author
-**Asif Irfan**
-
-## License
-No license specified.
+## Important limitation
+The model identifies patterns learned from this dataset. A prediction is not independent verification of whether a news story is factually true.
